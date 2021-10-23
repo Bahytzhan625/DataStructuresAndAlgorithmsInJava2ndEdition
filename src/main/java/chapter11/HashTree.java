@@ -1,33 +1,34 @@
 package chapter11;
 
-import base.items.LinkItem;
 import base.structures.HashTable;
-import chapter5.SortedLinkedList;
+import chapter8.Node;
+import chapter8.Tree;
 
 /**
- * Хэш-таблица использующая метод цепочек
+ * Программный проект 11.5 - Program project 11.5
+ * Хэш-таблица использующая двоичные деревья для разрешения коллизий
  *
  * @author bahytzhan
  * @created 23.10.2021
  * @$Author$
  * @$Revision$
  */
-public class HashChain implements HashTable<LinkItem> {
-	private SortedLinkedList[] hashArray;
+public class HashTree implements HashTable<Integer> {
+	private Tree[] hashArray;
 	private int arraySize;
 	private int elementsNumber;
 
 	/**
 	 * Конструкторы
 	 *
-	 * @param size размер хэш-таблицы 
+	 * @param size размер хэш-таблицы
 	 */
-	public HashChain(int size) {
+	public HashTree(int size) {
 		this.arraySize = size;
-		hashArray = new SortedLinkedList[arraySize];
+		hashArray = new Tree[arraySize];
 
 		for (int i = 0; i < arraySize; i++) {
-			hashArray[i] = new SortedLinkedList();
+			hashArray[i] = new Tree();
 		}
 	}
 
@@ -42,28 +43,37 @@ public class HashChain implements HashTable<LinkItem> {
 	}
 
 	@Override
-	public int hashFunction(LinkItem item) {
-		return item.getKey() % arraySize;
+	public int hashFunction(Integer item) {
+		return item % arraySize;
 	}
 
 	@Override
-	public void insert(LinkItem item) {
+	public void insert(Integer item) {
 		int hashValue = hashFunction(item);
-		hashArray[hashValue].insert(item);
+
+		if (hashArray[hashValue] == null) {
+			hashArray[hashValue] = new Tree();
+		}
+
+		hashArray[hashValue].insert(new Node(item, item));
 		elementsNumber++;
 	}
 
 	@Override
-	public LinkItem delete(LinkItem item) {
+	public Integer delete(Integer item) {
 		int hashValue = hashFunction(item);
-		elementsNumber--;
-		return hashArray[hashValue].delete(item);
+		if (hashArray[hashValue].delete(item)) {
+			elementsNumber--;
+			return item;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
-	public LinkItem find(LinkItem item) {
+	public Integer find(Integer item) {
 		int hashValue = hashFunction(item);
-		return hashArray[hashValue].find(item);
+		return hashArray[hashValue].find(item).key;
 	}
 
 	@Override
@@ -72,7 +82,7 @@ public class HashChain implements HashTable<LinkItem> {
 	}
 
 	@Override
-	public LinkItem[] getHashArray() {
+	public Integer[] getHashArray() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -82,7 +92,7 @@ public class HashChain implements HashTable<LinkItem> {
 
 		for (int i = 0; i < arraySize; i++) {
 			stringBuilder.append(String.format("%s. ", i));
-			stringBuilder.append(hashArray[i].getDisplayData());
+			stringBuilder.append(hashArray[i].displayTree());
 			stringBuilder.append("\n");
 		}
 
