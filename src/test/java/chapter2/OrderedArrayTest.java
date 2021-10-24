@@ -1,12 +1,10 @@
 package chapter2;
 
-import org.aspectj.lang.annotation.Before;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author bahytzhan
@@ -18,7 +16,7 @@ public class OrderedArrayTest {
 	int arraySize = 10;
 	OrderedArray orderedArray;
 
-	@Before
+	@BeforeAll
 	public void init() {
 		orderedArray = new OrderedArray(arraySize);
 

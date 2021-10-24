@@ -1,11 +1,9 @@
 package chapter2;
 
-import org.aspectj.lang.annotation.Before;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author bahytzhan
@@ -17,7 +15,7 @@ public class HighArrayTest {
 	private int arraySize = 10;
 	private HighArray highArray;
 
-	@Before
+	@BeforeAll
 	public void init() {
 		highArray = new HighArray(arraySize);
 
