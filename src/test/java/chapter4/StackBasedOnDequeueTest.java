@@ -58,5 +58,13 @@ public class StackBasedOnDequeueTest {
 		assertTrue(stackBasedOnDequeue.isFull());
 	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void testingVoidCheck2() {
+		stackBasedOnDequeue.remove();
+	}
 
+	@Test(expected = UnsupportedOperationException.class)
+	public void testingFullnessCheck2() {
+		IntStream.range(0, collectionSize + 1).forEach(k -> stackBasedOnDequeue.insert(k));
+	}
 }
