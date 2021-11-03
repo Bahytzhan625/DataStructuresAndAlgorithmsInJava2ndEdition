@@ -79,6 +79,26 @@ abstract class TestHashTableBase {
 	}
 
 	/**
-	 * Проверка соответствия
+	 * Проверка соответствия текущего размера хэш-таблицы с переданным при создании значением
 	 */
+	static void checkHashTableSize(HashTable hashTable, int size, ArrayList<?> items) {
+		assertEquals(size, hashTable.getHashTableSize());
+
+		items.forEach(hashTable::insert);
+
+		assertEquals(HashTable.getPrime(size * 2), hashTable.getHashTableSize());
+	}
+
+	/**
+	 * Проверка рассчета фактора загрузки хэш-таблицы
+	 */
+	static void testGettingLoadFactor(HashTable hashTable, float size, ArrayList<?> items) {
+		assertEquals(size, hashTable.getLoadFactor());
+
+		items.forEach(hashTable::insert);
+
+		size += ((float) items.size() / HASH_TABLE_SIZE);
+
+		assertTrue(size > hashTable.getLoadFactor());
+	}
 }
